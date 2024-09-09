@@ -1,11 +1,16 @@
 // src/app/utils/analytics.ts
-export const initGoogleAnalytics = () => {
-  if (typeof window !== "undefined") {
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-    gtag("config", process.env.NEXT_PUBLIC_GA_ID);
-  }
+import { useEffect } from "react";
+import { usePathname, useSearchParams } from "next/navigation";
+import * as gtag from "../lib/gtag";
+
+const useAnalytics = () => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const url = pathname + searchParams.toString();
+    gtag.pageview(url);
+  }, [pathname, searchParams]);
 };
+
+export default useAnalytics;
