@@ -137,4 +137,4 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-Created with 💚 by [Oslar](https://github.com/your-username) - feel free to contact me!
+Created with 💚 by [Oslar]() - feel free to contact me!
