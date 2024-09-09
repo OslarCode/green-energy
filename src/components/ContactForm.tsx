@@ -6,10 +6,39 @@ const ContactForm: React.FC = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState("");
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = { name: "", email: "", message: "" };
+
+    if (!name.trim()) {
+      newErrors.name = "Name is required";
+      isValid = false;
+    }
+
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Email is invalid";
+      isValid = false;
+    }
+
+    if (!message.trim()) {
+      newErrors.message = "Message is required";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) return;
+
     setStatus("sending");
 
     try {
@@ -34,7 +63,7 @@ const ContactForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-lg">
+    <form onSubmit={handleSubmit} className="w-full">
       <div className="mb-4">
         <label htmlFor="name" className="block mb-2">
           Name
@@ -44,9 +73,13 @@ const ContactForm: React.FC = () => {
           id="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full px-3 py-2 border rounded"
+          className={`w-full px-3 py-2 border rounded ${
+            errors.name ? "border-red-500" : "border-gray-300"
+          }`}
         />
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+        )}
       </div>
       <div className="mb-4">
         <label htmlFor="email" className="block mb-2">
@@ -57,9 +90,13 @@ const ContactForm: React.FC = () => {
           id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full px-3 py-2 border rounded"
+          className={`w-full px-3 py-2 border rounded ${
+            errors.email ? "border-red-500" : "border-gray-300"
+          }`}
         />
+        {errors.email && (
+          <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+        )}
       </div>
       <div className="mb-4">
         <label htmlFor="message" className="block mb-2">
@@ -69,16 +106,21 @@ const ContactForm: React.FC = () => {
           id="message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          required
-          className="w-full px-3 py-2 border rounded"
+          className={`w-full px-3 py-2 border rounded ${
+            errors.message ? "border-red-500" : "border-gray-300"
+          }`}
           rows={4}
         ></textarea>
+        {errors.message && (
+          <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+        )}
       </div>
       <button
         type="submit"
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300"
+        disabled={status === "sending"}
       >
-        Send Message
+        {status === "sending" ? "Sending..." : "Send Message"}
       </button>
       {status === "success" && (
         <p className="mt-4 text-green-600">Message sent successfully!</p>
