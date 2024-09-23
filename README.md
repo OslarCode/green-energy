@@ -6,6 +6,8 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.3-brightgreen.svg)](https://tailwindcss.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+![Green-Energy](https://github.com/OslarCode/green-energy/blob/main/src/public/images/GreenEnergy.png)
+
 A modern, responsive landing page for a renewable energy startup built with Next.js, React, TypeScript, and Tailwind CSS. 🚀
 
 ## 📋 Table of Contents
